@@ -2,171 +2,246 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Vazifalar — Kunlik reja</title>
+<title>Vazifalar — Premium Task Manager</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="app">
 
-    <header class="topbar">
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-icon">✓</div>
+
         <div>
-            <div class="logo">
-                <span class="logo-dot"></span>
-                Vazifalar
-            </div>
-            <div class="subtitle">Bugungi rejangizni tartibga soling</div>
+            <div class="brand-name">Vazifalar</div>
+            <div class="brand-sub">Premium Task Manager</div>
+        </div>
+    </div>
+
+    <div class="top-actions">
+        <button id="themeBtn" class="round-btn">☀️</button>
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-main">
+
+        <div class="eyebrow">BUGUNGI REJA</div>
+
+        <h1>Kuningizni<br><span>nazorat qiling.</span></h1>
+
+        <p id="sana"></p>
+
+    </div>
+
+
+    <div class="progress-card">
+
+        <div class="progress-head">
+            <span>Bugungi progress</span>
+            <strong id="progressPercent">0%</strong>
         </div>
 
-        <button id="themeBtn" class="icon-btn" title="Rejimni almashtirish">
-            ☀️
+        <div class="progress">
+            <div id="progressBar"></div>
+        </div>
+
+        <div class="progress-info">
+            <span id="progressText">0 / 0 bajarildi</span>
+            <span id="progressMessage">Boshlash vaqti</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon blue">✓</div>
+        <div>
+            <small>Jami vazifa</small>
+            <strong id="jami">0</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">✓</div>
+        <div>
+            <small>Bajarilgan</small>
+            <strong id="bajarilgan">0</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon orange">◷</div>
+        <div>
+            <small>Jarayonda</small>
+            <strong id="qolgan">0</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon purple">★</div>
+        <div>
+            <small>Muhim</small>
+            <strong id="muhim">0</strong>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="task-panel">
+
+    <div class="panel-top">
+
+        <div>
+            <h2>Vazifalar</h2>
+            <p>Bugungi ishlaringizni boshqaring</p>
+        </div>
+
+        <button id="tozalash" class="clear-btn">
+            Bajarilganlarni tozalash
         </button>
-    </header>
+
+    </div>
 
 
-    <main>
+    <form id="forma" class="add-form">
 
-        <section class="hero">
+        <div class="main-input">
 
-            <div class="hero-text">
-                <div class="hello">BUGUN</div>
-                <h1>Kunlik vazifalar</h1>
-                <p id="sana"></p>
-            </div>
+            <span>＋</span>
 
-            <div class="progress-card">
-                <div class="progress-top">
-                    <span>Jarayon</span>
-                    <strong id="progressPercent">0%</strong>
-                </div>
+            <input
+                id="matn"
+                type="text"
+                placeholder="Yangi vazifa yozing..."
+                maxlength="200"
+                autocomplete="off"
+                required
+            >
 
-                <div class="progress">
-                    <div id="progressBar"></div>
-                </div>
+        </div>
 
-                <div class="progress-bottom">
-                    <span id="progressText">0 / 0 bajarildi</span>
-                </div>
-            </div>
+        <select id="kategoriya">
+            <option value="Shaxsiy">👤 Shaxsiy</option>
+            <option value="O‘qish">📚 O‘qish</option>
+            <option value="Ish">💼 Ish</option>
+            <option value="Muhim">🔥 Muhim</option>
+            <option value="Boshqa">📌 Boshqa</option>
+        </select>
 
-        </section>
+        <input id="muddat" type="date">
 
+        <button class="add-btn" type="submit">
+            Qo‘shish
+        </button>
 
-        <section class="stats">
-
-            <div class="stat-card">
-                <div class="stat-icon blue">✓</div>
-                <div>
-                    <span>Jami</span>
-                    <strong id="jami">0</strong>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">✓</div>
-                <div>
-                    <span>Bajarilgan</span>
-                    <strong id="bajarilgan">0</strong>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon orange">○</div>
-                <div>
-                    <span>Qolgan</span>
-                    <strong id="qolgan">0</strong>
-                </div>
-            </div>
-
-        </section>
+    </form>
 
 
-        <section class="task-panel">
+    <div class="tools">
 
-            <div class="panel-header">
-                <div>
-                    <h2>Vazifalar</h2>
-                    <p>Bugun bajarishingiz kerak bo‘lgan ishlar</p>
-                </div>
-
-                <button id="tozalash" class="clear-btn">
-                    Tozalash
-                </button>
-            </div>
+        <div class="search-box">
+            <span>⌕</span>
+            <input
+                id="qidiruv"
+                type="text"
+                placeholder="Vazifalarni qidirish..."
+            >
+        </div>
 
 
-            <form id="forma" class="add-form">
+        <div class="filters">
 
-                <div class="input-wrap">
-                    <span>＋</span>
+            <button class="filter active" data-filter="all">
+                Barchasi <span id="allCount">0</span>
+            </button>
 
-                    <input
-                        id="matn"
-                        type="text"
-                        placeholder="Yangi vazifa yozing..."
-                        autocomplete="off"
-                        maxlength="200"
-                        required
-                    >
-                </div>
+            <button class="filter" data-filter="active">
+                Jarayonda <span id="activeCount">0</span>
+            </button>
 
-                <button type="submit" class="add-btn">
-                    Qo‘shish
-                </button>
+            <button class="filter" data-filter="completed">
+                Bajarilgan <span id="completedCount">0</span>
+            </button>
 
-            </form>
+            <button class="filter" data-filter="important">
+                Muhim <span id="importantCount">0</span>
+            </button>
 
+        </div>
 
-            <div class="filters">
-
-                <button class="filter active" data-filter="all">
-                    Barchasi
-                    <span id="allCount">0</span>
-                </button>
-
-                <button class="filter" data-filter="active">
-                    Jarayonda
-                    <span id="activeCount">0</span>
-                </button>
-
-                <button class="filter" data-filter="completed">
-                    Bajarilgan
-                    <span id="completedCount">0</span>
-                </button>
-
-            </div>
+    </div>
 
 
-            <ul id="royxat"></ul>
+    <div class="list-head">
 
-        </section>
+        <span>VAZIFALAR RO‘YXATI</span>
 
+        <select id="sortSelect">
+            <option value="new">Yangi → eski</option>
+            <option value="old">Eski → yangi</option>
+            <option value="priority">Muhimlari</option>
+            <option value="deadline">Muddat bo‘yicha</option>
+        </select>
 
-        <section id="emptyState" class="empty-state">
-
-            <div class="empty-icon">✓</div>
-
-            <h3>Hammasi joyida!</h3>
-
-            <p>
-                Hozircha vazifalar yo‘q.<br>
-                Birinchi vazifangizni qo‘shing.
-            </p>
-
-        </section>
-
-    </main>
+    </div>
 
 
-    <footer class="footer">
-        <span>Vazifalar</span>
-        <span>Ma'lumotlar qurilmangizda saqlanadi</span>
-    </footer>
+    <ul id="royxat"></ul>
+
+
+    <div id="emptyState" class="empty-state">
+
+        <div class="empty-icon">✓</div>
+
+        <h3>Hozircha vazifa yo‘q</h3>
+
+        <p>
+            Yuqoridagi maydondan yangi vazifa qo‘shing.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="analytics">
+
+    <div class="analytics-head">
+        <div>
+            <h2>Faollik</h2>
+            <p>Vazifalar bajarilish ko‘rsatkichi</p>
+        </div>
+    </div>
+
+    <div class="week-chart" id="weekChart"></div>
+
+</section>
+
+</main>
+
+
+<footer>
+    <span>Vazifalar Premium</span>
+    <span>Ma'lumotlar qurilmangizda saqlanadi</span>
+</footer>
 
 </div>
 
