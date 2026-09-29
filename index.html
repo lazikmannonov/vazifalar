@@ -1,28 +1,183 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kunlik vazifalar</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vazifalar — Kunlik reja</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="card">
-    <h1>Kunlik vazifalar</h1>
-    <p id="sana" class="sana"></p>
 
-    <form id="forma">
-      <input id="matn" type="text" placeholder="Yangi vazifa yozing..." autocomplete="off" required>
-      <button type="submit">Qo'shish</button>
-    </form>
+<div class="app">
 
-    <ul id="royxat"></ul>
+    <header class="topbar">
+        <div>
+            <div class="logo">
+                <span class="logo-dot"></span>
+                Vazifalar
+            </div>
+            <div class="subtitle">Bugungi rejangizni tartibga soling</div>
+        </div>
 
-    <footer>
-      <span id="hisob"></span>
-      <button id="tozalash" type="button">Bajarilganlarni o'chirish</button>
+        <button id="themeBtn" class="icon-btn" title="Rejimni almashtirish">
+            ☀️
+        </button>
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-text">
+                <div class="hello">BUGUN</div>
+                <h1>Kunlik vazifalar</h1>
+                <p id="sana"></p>
+            </div>
+
+            <div class="progress-card">
+                <div class="progress-top">
+                    <span>Jarayon</span>
+                    <strong id="progressPercent">0%</strong>
+                </div>
+
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+
+                <div class="progress-bottom">
+                    <span id="progressText">0 / 0 bajarildi</span>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">✓</div>
+                <div>
+                    <span>Jami</span>
+                    <strong id="jami">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">✓</div>
+                <div>
+                    <span>Bajarilgan</span>
+                    <strong id="bajarilgan">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">○</div>
+                <div>
+                    <span>Qolgan</span>
+                    <strong id="qolgan">0</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="task-panel">
+
+            <div class="panel-header">
+                <div>
+                    <h2>Vazifalar</h2>
+                    <p>Bugun bajarishingiz kerak bo‘lgan ishlar</p>
+                </div>
+
+                <button id="tozalash" class="clear-btn">
+                    Tozalash
+                </button>
+            </div>
+
+
+            <form id="forma" class="add-form">
+
+                <div class="input-wrap">
+                    <span>＋</span>
+
+                    <input
+                        id="matn"
+                        type="text"
+                        placeholder="Yangi vazifa yozing..."
+                        autocomplete="off"
+                        maxlength="200"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="add-btn">
+                    Qo‘shish
+                </button>
+
+            </form>
+
+
+            <div class="filters">
+
+                <button class="filter active" data-filter="all">
+                    Barchasi
+                    <span id="allCount">0</span>
+                </button>
+
+                <button class="filter" data-filter="active">
+                    Jarayonda
+                    <span id="activeCount">0</span>
+                </button>
+
+                <button class="filter" data-filter="completed">
+                    Bajarilgan
+                    <span id="completedCount">0</span>
+                </button>
+
+            </div>
+
+
+            <ul id="royxat"></ul>
+
+        </section>
+
+
+        <section id="emptyState" class="empty-state">
+
+            <div class="empty-icon">✓</div>
+
+            <h3>Hammasi joyida!</h3>
+
+            <p>
+                Hozircha vazifalar yo‘q.<br>
+                Birinchi vazifangizni qo‘shing.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+        <span>Vazifalar</span>
+        <span>Ma'lumotlar qurilmangizda saqlanadi</span>
     </footer>
-  </main>
-  <script src="script.js"></script>
+
+</div>
+
+
+<div id="toast" class="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastText"></span>
+</div>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>
