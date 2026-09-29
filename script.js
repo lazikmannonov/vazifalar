@@ -56,43 +56,71 @@ function yukla() {
 
         return data.map((v, index) => ({
             id: v.id || Date.now() + index,
+
             matn: v.matn || v.text || "",
+
             bajarilgan: Boolean(
                 v.bajarilgan !== undefined
                     ? v.bajarilgan
                     : v.completed
             ),
-            muhim: Boolean(v.muhim || v.important),
-            kategoriya: v.kategoriya || v.category || "Shaxsiy",
-            muddat: v.muddat || v.deadline || "",
-            yaratilgan: v.yaratilgan || v.createdAt || new Date().toISOString()
+
+            muhim: Boolean(
+                v.muhim || v.important
+            ),
+
+            kategoriya:
+                v.kategoriya ||
+                v.category ||
+                "Shaxsiy",
+
+            muddat:
+                v.muddat ||
+                v.deadline ||
+                "",
+
+            yaratilgan:
+                v.yaratilgan ||
+                v.createdAt ||
+                new Date().toISOString()
         }));
+
     } catch {
         return [];
     }
 }
 
 function saqla() {
-    localStorage.setItem(KALIT, JSON.stringify(vazifalar));
+    localStorage.setItem(
+        KALIT,
+        JSON.stringify(vazifalar)
+    );
 }
 
 
 /* =====================================================
-   SANANI CHIQARISH
+   SANA
 ===================================================== */
 
 function bugungiSana() {
     const bugun = new Date();
 
-    sana.textContent = bugun.toLocaleDateString("uz-UZ", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    });
+    sana.textContent =
+        bugun.toLocaleDateString(
+            "uz-UZ",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
 
     if (muddat) {
-        muddat.min = bugun.toISOString().split("T")[0];
+        muddat.min =
+            bugun
+                .toISOString()
+                .split("T")[0];
     }
 }
 
@@ -101,19 +129,29 @@ function bugungiSana() {
    TOAST
 ===================================================== */
 
-function xabar(matn, tur = "success") {
-    if (!toast || !toastText) return;
+function xabar(matnXabari, tur = "success") {
+
+    if (!toast || !toastText) {
+        return;
+    }
 
     clearTimeout(toastTimer);
 
-    toastText.textContent = matn;
+    toastText.textContent =
+        matnXabari;
 
     if (toastIcon) {
-        toastIcon.textContent = tur === "error" ? "!" : "✓";
+        toastIcon.textContent =
+            tur === "error"
+                ? "!"
+                : "✓";
     }
 
-    toast.classList.remove("show", "error");
-    
+    toast.classList.remove(
+        "show",
+        "error"
+    );
+
     if (tur === "error") {
         toast.classList.add("error");
     }
@@ -133,17 +171,24 @@ function xabar(matn, tur = "success") {
 ===================================================== */
 
 function statistika() {
-    const jami = vazifalar.length;
 
-    const bajarilgan = vazifalar.filter(
-        v => v.bajarilgan
-    ).length;
+    const jami =
+        vazifalar.length;
 
-    const qolgan = jami - bajarilgan;
+    const bajarilgan =
+        vazifalar.filter(
+            v => v.bajarilgan
+        ).length;
 
-    const muhim = vazifalar.filter(
-        v => v.muhim || v.kategoriya === "Muhim"
-    ).length;
+    const qolgan =
+        jami - bajarilgan;
+
+    const muhim =
+        vazifalar.filter(
+            v =>
+                v.muhim ||
+                v.kategoriya === "Muhim"
+        ).length;
 
     jamiEl.textContent = jami;
     bajarilganEl.textContent = bajarilgan;
@@ -152,38 +197,64 @@ function statistika() {
 
     allCount.textContent = jami;
 
-    activeCount.textContent = vazifalar.filter(
-        v => !v.bajarilgan
-    ).length;
+    activeCount.textContent =
+        vazifalar.filter(
+            v => !v.bajarilgan
+        ).length;
 
-    completedCount.textContent = bajarilgan;
+    completedCount.textContent =
+        bajarilgan;
 
-    importantCount.textContent = muhim;
+    importantCount.textContent =
+        muhim;
 
     let foiz = 0;
 
     if (jami > 0) {
-        foiz = Math.round((bajarilgan / jami) * 100);
+        foiz =
+            Math.round(
+                (bajarilgan / jami) * 100
+            );
     }
 
-    progressPercent.textContent = `${foiz}%`;
-    progressBar.style.width = `${foiz}%`;
+    progressPercent.textContent =
+        `${foiz}%`;
+
+    progressBar.style.width =
+        `${foiz}%`;
 
     progressText.textContent =
         `${bajarilgan} / ${jami} bajarildi`;
 
     if (jami === 0) {
-        progressMessage.textContent = "Boshlash vaqti";
+
+        progressMessage.textContent =
+            "Boshlash vaqti";
+
     } else if (foiz === 100) {
-        progressMessage.textContent = "Ajoyib! Hammasi bajarildi 🎉";
+
+        progressMessage.textContent =
+            "Ajoyib! Hammasi bajarildi 🎉";
+
     } else if (foiz >= 75) {
-        progressMessage.textContent = "Deyarli tugadi!";
+
+        progressMessage.textContent =
+            "Deyarli tugadi!";
+
     } else if (foiz >= 50) {
-        progressMessage.textContent = "Yaxshi ketmoqda!";
+
+        progressMessage.textContent =
+            "Yaxshi ketmoqda!";
+
     } else if (foiz > 0) {
-        progressMessage.textContent = "Davom eting!";
+
+        progressMessage.textContent =
+            "Davom eting!";
+
     } else {
-        progressMessage.textContent = "Boshlash vaqti";
+
+        progressMessage.textContent =
+            "Boshlash vaqti";
     }
 }
 
@@ -193,6 +264,7 @@ function statistika() {
 ===================================================== */
 
 function filterdanOtkaz(v) {
+
     if (aktivFilter === "active") {
         return !v.bajarilgan;
     }
@@ -202,7 +274,10 @@ function filterdanOtkaz(v) {
     }
 
     if (aktivFilter === "important") {
-        return v.muhim || v.kategoriya === "Muhim";
+        return (
+            v.muhim ||
+            v.kategoriya === "Muhim"
+        );
     }
 
     return true;
@@ -214,13 +289,24 @@ function filterdanOtkaz(v) {
 ===================================================== */
 
 function qidiruvdanOtkaz(v) {
-    const soz = qidiruv.value.trim().toLowerCase();
 
-    if (!soz) return true;
+    const soz =
+        qidiruv.value
+            .trim()
+            .toLowerCase();
+
+    if (!soz) {
+        return true;
+    }
 
     return (
-        v.matn.toLowerCase().includes(soz) ||
-        v.kategoriya.toLowerCase().includes(soz)
+        v.matn
+            .toLowerCase()
+            .includes(soz) ||
+
+        v.kategoriya
+            .toLowerCase()
+            .includes(soz)
     );
 }
 
@@ -230,45 +316,77 @@ function qidiruvdanOtkaz(v) {
 ===================================================== */
 
 function sarala(arr) {
-    const turi = sortSelect.value;
+
+    const turi =
+        sortSelect.value;
 
     const nusxa = [...arr];
 
     if (turi === "new") {
+
         nusxa.sort(
             (a, b) =>
-                Number(b.id) - Number(a.id)
+                Number(b.id) -
+                Number(a.id)
         );
     }
 
     if (turi === "old") {
+
         nusxa.sort(
             (a, b) =>
-                Number(a.id) - Number(b.id)
+                Number(a.id) -
+                Number(b.id)
         );
     }
 
     if (turi === "priority") {
+
         nusxa.sort((a, b) => {
+
             const aImportant =
-                a.muhim || a.kategoriya === "Muhim";
+                a.muhim ||
+                a.kategoriya === "Muhim";
 
             const bImportant =
-                b.muhim || b.kategoriya === "Muhim";
+                b.muhim ||
+                b.kategoriya === "Muhim";
 
-            if (aImportant !== bImportant) {
-                return bImportant - aImportant;
+            if (
+                aImportant !==
+                bImportant
+            ) {
+                return (
+                    bImportant -
+                    aImportant
+                );
             }
 
-            return Number(b.id) - Number(a.id);
+            return (
+                Number(b.id) -
+                Number(a.id)
+            );
         });
     }
 
     if (turi === "deadline") {
+
         nusxa.sort((a, b) => {
-            if (!a.muddat && !b.muddat) return 0;
-            if (!a.muddat) return 1;
-            if (!b.muddat) return -1;
+
+            if (
+                !a.muddat &&
+                !b.muddat
+            ) {
+                return 0;
+            }
+
+            if (!a.muddat) {
+                return 1;
+            }
+
+            if (!b.muddat) {
+                return -1;
+            }
 
             return (
                 new Date(a.muddat) -
@@ -282,37 +400,65 @@ function sarala(arr) {
 
 
 /* =====================================================
-   MUDDAT FORMAT
+   MUDDAT
 ===================================================== */
 
 function muddatFormat(muddatQiymat) {
-    if (!muddatQiymat) return "";
 
-    const sanaObj = new Date(
-        muddatQiymat + "T00:00:00"
-    );
+    if (!muddatQiymat) {
+        return "";
+    }
 
-    if (Number.isNaN(sanaObj.getTime())) {
+    const sanaObj =
+        new Date(
+            muddatQiymat +
+            "T00:00:00"
+        );
+
+    if (
+        Number.isNaN(
+            sanaObj.getTime()
+        )
+    ) {
         return muddatQiymat;
     }
 
-    return sanaObj.toLocaleDateString("uz-UZ", {
-        day: "2-digit",
-        month: "short"
-    });
+    return sanaObj.toLocaleDateString(
+        "uz-UZ",
+        {
+            day: "2-digit",
+            month: "short"
+        }
+    );
 }
 
-function muddatiO'tgan(v) {
-    if (!v.muddat || v.bajarilgan) {
+
+/* MUHIM: apostrofsiz nom */
+
+function muddatiOtgan(v) {
+
+    if (
+        !v.muddat ||
+        v.bajarilgan
+    ) {
         return false;
     }
 
-    const bugun = new Date();
-    bugun.setHours(0, 0, 0, 0);
+    const bugun =
+        new Date();
 
-    const muddatObj = new Date(
-        v.muddat + "T00:00:00"
+    bugun.setHours(
+        0,
+        0,
+        0,
+        0
     );
+
+    const muddatObj =
+        new Date(
+            v.muddat +
+            "T00:00:00"
+        );
 
     return muddatObj < bugun;
 }
@@ -323,124 +469,224 @@ function muddatiO'tgan(v) {
 ===================================================== */
 
 function kategoriyaEmoji(kat) {
+
     const belgilar = {
+
         "Shaxsiy": "👤",
+
         "O‘qish": "📚",
+
         "O'qish": "📚",
+
         "Ish": "💼",
+
         "Muhim": "🔥",
+
         "Boshqa": "📌"
     };
 
-    return belgilar[kat] || "📌";
+    return (
+        belgilar[kat] ||
+        "📌"
+    );
 }
 
 
 /* =====================================================
-   VAZIFA CHIZISH
+   VAZIFALARNI CHIZISH
 ===================================================== */
 
 function chiz() {
+
     royxat.innerHTML = "";
 
-    let ko'rsatiladigan = vazifalar
-        .filter(filterdanOtkaz)
-        .filter(qidiruvdanOtkaz);
+    let korsatiladigan =
+        vazifalar
+            .filter(filterdanOtkaz)
+            .filter(qidiruvdanOtkaz);
 
-    ko'rsatiladigan = sarala(ko'rsatiladigan);
+    korsatiladigan =
+        sarala(korsatiladigan);
 
-    if (ko'rsatiladigan.length === 0) {
-        emptyState.style.display = "flex";
 
-        if (vazifalar.length > 0) {
-            const sarlavha =
-                emptyState.querySelector("h3");
+    /* BO'SH HOLAT */
 
-            const izoh =
-                emptyState.querySelector("p");
+    if (
+        korsatiladigan.length === 0
+    ) {
 
-            if (aktivFilter === "completed") {
-                sarlavha.textContent =
-                    "Bajarilgan vazifalar yo‘q";
+        emptyState.style.display =
+            "flex";
 
-                izoh.textContent =
-                    "Hozircha bajarilgan vazifa mavjud emas.";
-            } else if (aktivFilter === "important") {
-                sarlavha.textContent =
-                    "Muhim vazifalar yo‘q";
+        const sarlavha =
+            emptyState.querySelector("h3");
 
-                izoh.textContent =
-                    "Muhim vazifa qo‘shilganda shu yerda ko‘rinadi.";
-            } else if (qidiruv.value.trim()) {
-                sarlavha.textContent =
-                    "Vazifa topilmadi";
+        const izoh =
+            emptyState.querySelector("p");
 
-                izoh.textContent =
-                    "Qidiruv so‘zini o‘zgartirib ko‘ring.";
-            } else {
-                sarlavha.textContent =
-                    "Hozircha vazifa yo‘q";
+        if (vazifalar.length === 0) {
 
-                izoh.textContent =
-                    "Yuqoridagi maydondan yangi vazifa qo‘shing.";
-            }
+            sarlavha.textContent =
+                "Hozircha vazifa yo‘q";
+
+            izoh.textContent =
+                "Yuqoridagi maydondan yangi vazifa qo‘shing.";
+
+        } else if (
+            aktivFilter === "completed"
+        ) {
+
+            sarlavha.textContent =
+                "Bajarilgan vazifalar yo‘q";
+
+            izoh.textContent =
+                "Hozircha bajarilgan vazifa mavjud emas.";
+
+        } else if (
+            aktivFilter === "important"
+        ) {
+
+            sarlavha.textContent =
+                "Muhim vazifalar yo‘q";
+
+            izoh.textContent =
+                "Muhim vazifa qo‘shilganda shu yerda ko‘rinadi.";
+
+        } else if (
+            aktivFilter === "active"
+        ) {
+
+            sarlavha.textContent =
+                "Jarayondagi vazifalar yo‘q";
+
+            izoh.textContent =
+                "Barcha vazifalar bajarilgan.";
+
+        } else if (
+            qidiruv.value.trim()
+        ) {
+
+            sarlavha.textContent =
+                "Vazifa topilmadi";
+
+            izoh.textContent =
+                "Qidiruv so‘zini o‘zgartirib ko‘ring.";
+
+        } else {
+
+            sarlavha.textContent =
+                "Hozircha vazifa yo‘q";
+
+            izoh.textContent =
+                "Yuqoridagi maydondan yangi vazifa qo‘shing.";
         }
+
+        statistika();
 
         return;
     }
 
-    emptyState.style.display = "none";
 
-    ko'rsatiladigan.forEach(v => {
-        const li = document.createElement("li");
+    emptyState.style.display =
+        "none";
 
-        li.className = "task-item";
+
+    /* HAR BIR VAZIFA */
+
+    korsatiladigan.forEach(v => {
+
+        const li =
+            document.createElement("li");
+
+        li.className =
+            "task-item";
+
 
         if (v.bajarilgan) {
-            li.classList.add("bajarilgan");
-        }
-
-        if (v.muhim || v.kategoriya === "Muhim") {
-            li.classList.add("muhim-task");
-        }
-
-        if (muddatiO'tgan(v)) {
-            li.classList.add("muddat-otgan");
+            li.classList.add(
+                "bajarilgan"
+            );
         }
 
 
-        /* CHECK */
+        if (
+            v.muhim ||
+            v.kategoriya === "Muhim"
+        ) {
+            li.classList.add(
+                "muhim-task"
+            );
+        }
+
+
+        if (muddatiOtgan(v)) {
+            li.classList.add(
+                "muddat-otgan"
+            );
+        }
+
+
+        /* CHECKBOX */
 
         const checkWrap =
             document.createElement("label");
 
-        checkWrap.className = "task-check";
+        checkWrap.className =
+            "task-check";
+
 
         const check =
             document.createElement("input");
 
-        check.type = "checkbox";
-        check.checked = v.bajarilgan;
+        check.type =
+            "checkbox";
+
+        check.checked =
+            v.bajarilgan;
+
 
         const checkVisual =
             document.createElement("span");
 
-        checkVisual.className = "check-visual";
+        checkVisual.className =
+            "check-visual";
 
-        check.addEventListener("change", () => {
-            v.bajarilgan = check.checked;
 
-            saqla();
-            chiz();
-            statistika();
-            grafikChiz();
+        check.addEventListener(
+            "change",
+            () => {
 
-            if (v.bajarilgan) {
-                xabar("Vazifa bajarildi ✓");
+                v.bajarilgan =
+                    check.checked;
+
+                saqla();
+
+                chiz();
+
+                statistika();
+
+                grafikChiz();
+
+                if (v.bajarilgan) {
+
+                    xabar(
+                        "Vazifa bajarildi ✓"
+                    );
+
+                } else {
+
+                    xabar(
+                        "Vazifa qayta faollashtirildi"
+                    );
+                }
             }
-        });
+        );
 
-        checkWrap.append(check, checkVisual);
+
+        checkWrap.append(
+            check,
+            checkVisual
+        );
 
 
         /* BODY */
@@ -448,50 +694,89 @@ function chiz() {
         const body =
             document.createElement("div");
 
-        body.className = "task-body";
+        body.className =
+            "task-body";
 
 
         const titleRow =
             document.createElement("div");
 
-        titleRow.className = "task-title-row";
+        titleRow.className =
+            "task-title-row";
 
 
         const title =
             document.createElement("span");
 
-        title.className = "task-title";
-        title.textContent = v.matn;
+        title.className =
+            "task-title";
 
+        title.textContent =
+            v.matn;
+
+
+        /* MUHIM STAR */
 
         const star =
             document.createElement("button");
 
-        star.type = "button";
-        star.className = "star-btn";
+        star.type =
+            "button";
 
-        if (v.muhim || v.kategoriya === "Muhim") {
-            star.classList.add("active");
+        star.className =
+            "star-btn";
+
+
+        if (
+            v.muhim ||
+            v.kategoriya === "Muhim"
+        ) {
+            star.classList.add(
+                "active"
+            );
         }
 
-        star.textContent = "★";
-        star.title = "Muhim";
 
-        star.addEventListener("click", () => {
-            v.muhim = !v.muhim;
+        star.textContent =
+            "★";
 
-            if (v.muhim) {
-                xabar("Vazifa muhim deb belgilandi");
-            } else {
-                xabar("Muhim belgisi olib tashlandi");
+        star.title =
+            "Muhim";
+
+
+        star.addEventListener(
+            "click",
+            () => {
+
+                v.muhim =
+                    !v.muhim;
+
+                saqla();
+
+                chiz();
+
+                statistika();
+
+                if (v.muhim) {
+
+                    xabar(
+                        "Vazifa muhim deb belgilandi"
+                    );
+
+                } else {
+
+                    xabar(
+                        "Muhim belgisi olib tashlandi"
+                    );
+                }
             }
+        );
 
-            saqla();
-            chiz();
-            statistika();
-        });
 
-        titleRow.append(title, star);
+        titleRow.append(
+            title,
+            star
+        );
 
 
         /* META */
@@ -499,97 +784,160 @@ function chiz() {
         const meta =
             document.createElement("div");
 
-        meta.className = "task-meta";
+        meta.className =
+            "task-meta";
 
 
         const category =
             document.createElement("span");
 
-        category.className = "task-category";
+        category.className =
+            "task-category";
 
-        category.innerHTML =
-            `${kategoriyaEmoji(v.kategoriya)} ${v.kategoriya}`;
+        category.textContent =
+            `${kategoriyaEmoji(
+                v.kategoriya
+            )} ${v.kategoriya}`;
 
-        meta.appendChild(category);
+
+        meta.appendChild(
+            category
+        );
 
 
         if (v.muddat) {
+
             const deadline =
                 document.createElement("span");
 
-            deadline.className = "task-deadline";
+            deadline.className =
+                "task-deadline";
 
-            if (muddatiO'tgan(v)) {
-                deadline.classList.add("overdue");
+
+            if (muddatiOtgan(v)) {
+
+                deadline.classList.add(
+                    "overdue"
+                );
+
                 deadline.textContent =
-                    `⚠ Muddat o‘tgan · ${muddatFormat(v.muddat)}`;
+                    `⚠ Muddat o‘tgan · ${muddatFormat(
+                        v.muddat
+                    )}`;
+
             } else {
+
                 deadline.textContent =
-                    `◷ ${muddatFormat(v.muddat)}`;
+                    `◷ ${muddatFormat(
+                        v.muddat
+                    )}`;
             }
 
-            meta.appendChild(deadline);
+
+            meta.appendChild(
+                deadline
+            );
         }
 
 
-        body.append(titleRow, meta);
+        body.append(
+            titleRow,
+            meta
+        );
 
 
-        /* EDIT */
+        /* TAHRIRLASH */
 
         const edit =
             document.createElement("button");
 
-        edit.type = "button";
-        edit.className = "task-action edit-btn";
-        edit.title = "Tahrirlash";
-        edit.innerHTML = "✎";
+        edit.type =
+            "button";
 
-        edit.addEventListener("click", () => {
-            tahrirlash(v);
-        });
+        edit.className =
+            "task-action edit-btn";
+
+        edit.title =
+            "Tahrirlash";
+
+        edit.innerHTML =
+            "✎";
 
 
-        /* DELETE */
+        edit.addEventListener(
+            "click",
+            () => {
+                tahrirlash(v);
+            }
+        );
+
+
+        /* O‘CHIRISH */
 
         const ochir =
             document.createElement("button");
 
-        ochir.type = "button";
+        ochir.type =
+            "button";
+
         ochir.className =
             "task-action delete-btn";
 
-        ochir.title = "O‘chirish";
-        ochir.innerHTML = "×";
+        ochir.title =
+            "O‘chirish";
 
-        ochir.addEventListener("click", () => {
-            const tasdiq =
-                confirm(
-                    `"${v.matn}" vazifasini o‘chirmoqchimisiz?`
+        ochir.innerHTML =
+            "×";
+
+
+        ochir.addEventListener(
+            "click",
+            () => {
+
+                const tasdiq =
+                    confirm(
+                        `"${v.matn}" vazifasini o‘chirmoqchimisiz?`
+                    );
+
+                if (!tasdiq) {
+                    return;
+                }
+
+
+                vazifalar =
+                    vazifalar.filter(
+                        x =>
+                            x.id !== v.id
+                    );
+
+
+                saqla();
+
+                chiz();
+
+                statistika();
+
+                grafikChiz();
+
+                xabar(
+                    "Vazifa o‘chirildi"
                 );
-
-            if (!tasdiq) return;
-
-            vazifalar =
-                vazifalar.filter(
-                    x => x.id !== v.id
-                );
-
-            saqla();
-            chiz();
-            statistika();
-            grafikChiz();
-
-            xabar("Vazifa o‘chirildi");
-        });
+            }
+        );
 
 
         const actions =
             document.createElement("div");
 
-        actions.className = "task-actions";
+        actions.className =
+            "task-actions";
 
-        actions.append(edit, ochir);
+
+        actions.append(
+            edit,
+            ochir
+        );
+
 
         li.append(
             checkWrap,
@@ -597,8 +945,10 @@ function chiz() {
             actions
         );
 
+
         royxat.appendChild(li);
     });
+
 
     statistika();
 }
@@ -609,24 +959,45 @@ function chiz() {
 ===================================================== */
 
 function tahrirlash(v) {
+
     const yangiMatn =
-        prompt("Vazifani tahrirlang:", v.matn);
+        prompt(
+            "Vazifani tahrirlang:",
+            v.matn
+        );
 
-    if (yangiMatn === null) return;
 
-    const qiymat = yangiMatn.trim();
-
-    if (!qiymat) {
-        xabar("Vazifa matni bo‘sh bo‘lishi mumkin emas", "error");
+    if (yangiMatn === null) {
         return;
     }
 
-    v.matn = qiymat;
+
+    const qiymat =
+        yangiMatn.trim();
+
+
+    if (!qiymat) {
+
+        xabar(
+            "Vazifa matni bo‘sh bo‘lishi mumkin emas",
+            "error"
+        );
+
+        return;
+    }
+
+
+    v.matn =
+        qiymat;
+
 
     saqla();
+
     chiz();
 
-    xabar("Vazifa yangilandi ✓");
+    xabar(
+        "Vazifa yangilandi ✓"
+    );
 }
 
 
@@ -634,97 +1005,161 @@ function tahrirlash(v) {
    QO‘SHISH
 ===================================================== */
 
-forma.addEventListener("submit", e => {
-    e.preventDefault();
+forma.addEventListener(
+    "submit",
+    e => {
 
-    const qiymat =
-        matn.value.trim();
+        e.preventDefault();
 
-    if (!qiymat) {
-        xabar("Vazifa yozing", "error");
-        matn.focus();
-        return;
-    }
 
-    const kat =
-        kategoriya.value || "Shaxsiy";
+        const qiymat =
+            matn.value.trim();
 
-    const yangi = {
-        id: Date.now(),
-        matn: qiymat,
-        bajarilgan: false,
-        muhim: kat === "Muhim",
-        kategoriya: kat,
-        muddat: muddat.value || "",
-        yaratilgan: new Date().toISOString()
-    };
 
-    vazifalar.unshift(yangi);
+        if (!qiymat) {
 
-    saqla();
-
-    matn.value = "";
-    muddat.value = "";
-    kategoriya.value = "Shaxsiy";
-
-    aktivFilter = "all";
-
-    document
-        .querySelectorAll(".filter")
-        .forEach(btn => {
-            btn.classList.toggle(
-                "active",
-                btn.dataset.filter === "all"
+            xabar(
+                "Vazifa yozing",
+                "error"
             );
-        });
 
-    chiz();
-    statistika();
-    grafikChiz();
+            matn.focus();
 
-    xabar("Yangi vazifa qo‘shildi ✓");
+            return;
+        }
 
-    matn.focus();
-});
+
+        const kat =
+            kategoriya.value ||
+            "Shaxsiy";
+
+
+        const yangi = {
+
+            id: Date.now(),
+
+            matn: qiymat,
+
+            bajarilgan: false,
+
+            muhim:
+                kat === "Muhim",
+
+            kategoriya: kat,
+
+            muddat:
+                muddat.value || "",
+
+            yaratilgan:
+                new Date().toISOString()
+        };
+
+
+        vazifalar.unshift(
+            yangi
+        );
+
+
+        saqla();
+
+
+        matn.value = "";
+
+        muddat.value = "";
+
+        kategoriya.value =
+            "Shaxsiy";
+
+
+        aktivFilter =
+            "all";
+
+
+        document
+            .querySelectorAll(".filter")
+            .forEach(btn => {
+
+                btn.classList.toggle(
+                    "active",
+                    btn.dataset.filter ===
+                        "all"
+                );
+            });
+
+
+        chiz();
+
+        statistika();
+
+        grafikChiz();
+
+
+        xabar(
+            "Yangi vazifa qo‘shildi ✓"
+        );
+
+
+        matn.focus();
+    }
+);
 
 
 /* =====================================================
    TOZALASH
 ===================================================== */
 
-tozalash.addEventListener("click", () => {
-    const son =
-        vazifalar.filter(
-            v => v.bajarilgan
-        ).length;
+tozalash.addEventListener(
+    "click",
+    () => {
 
-    if (son === 0) {
+        const son =
+            vazifalar.filter(
+                v => v.bajarilgan
+            ).length;
+
+
+        if (son === 0) {
+
+            xabar(
+                "Tozalash uchun bajarilgan vazifa yo‘q",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const tasdiq =
+            confirm(
+                `${son} ta bajarilgan vazifani o‘chirmoqchimisiz?`
+            );
+
+
+        if (!tasdiq) {
+            return;
+        }
+
+
+        vazifalar =
+            vazifalar.filter(
+                v => !v.bajarilgan
+            );
+
+
+        saqla();
+
+        chiz();
+
+        statistika();
+
+        grafikChiz();
+
+
         xabar(
-            "Tozalash uchun bajarilgan vazifa yo‘q",
-            "error"
+            "Bajarilgan vazifalar tozalandi"
         );
-        return;
     }
-
-    const tasdiq =
-        confirm(
-            `${son} ta bajarilgan vazifani o‘chirmoqchimisiz?`
-        );
-
-    if (!tasdiq) return;
-
-    vazifalar =
-        vazifalar.filter(
-            v => !v.bajarilgan
-        );
-
-    saqla();
-    chiz();
-    statistika();
-    grafikChiz();
-
-    xabar("Bajarilgan vazifalar tozalandi");
-});
+);
 
 
 /* =====================================================
@@ -734,21 +1169,32 @@ tozalash.addEventListener("click", () => {
 document
     .querySelectorAll(".filter")
     .forEach(btn => {
-        btn.addEventListener("click", () => {
 
-            aktivFilter =
-                btn.dataset.filter;
+        btn.addEventListener(
+            "click",
+            () => {
 
-            document
-                .querySelectorAll(".filter")
-                .forEach(b => {
-                    b.classList.remove("active");
-                });
+                aktivFilter =
+                    btn.dataset.filter;
 
-            btn.classList.add("active");
 
-            chiz();
-        });
+                document
+                    .querySelectorAll(".filter")
+                    .forEach(b => {
+                        b.classList.remove(
+                            "active"
+                        );
+                    });
+
+
+                btn.classList.add(
+                    "active"
+                );
+
+
+                chiz();
+            }
+        );
     });
 
 
@@ -776,20 +1222,25 @@ sortSelect.addEventListener(
    TEMA
 ===================================================== */
 
-function temaO'rnat(theme) {
+function temaOrnat(theme) {
+
     document.documentElement.dataset.theme =
         theme;
+
 
     localStorage.setItem(
         TEMA_KALITI,
         theme
     );
 
+
     if (themeBtn) {
+
         themeBtn.textContent =
             theme === "dark"
                 ? "☀️"
                 : "🌙";
+
 
         themeBtn.title =
             theme === "dark"
@@ -798,30 +1249,46 @@ function temaO'rnat(theme) {
     }
 }
 
+
 function temaYukla() {
+
     const saqlangan =
         localStorage.getItem(
             TEMA_KALITI
         );
 
+
     if (saqlangan) {
-        temaO'rnat(saqlangan);
+
+        temaOrnat(
+            saqlangan
+        );
+
     } else {
-        temaO'rnat("light");
+
+        temaOrnat(
+            "light"
+        );
     }
 }
+
 
 themeBtn.addEventListener(
     "click",
     () => {
-        const hozir =
-            document.documentElement.dataset.theme;
 
-        temaO'rnat(
+        const hozir =
+            document.documentElement
+                .dataset
+                .theme;
+
+
+        temaOrnat(
             hozir === "dark"
                 ? "light"
                 : "dark"
         );
+
 
         xabar(
             hozir === "dark"
@@ -837,58 +1304,100 @@ themeBtn.addEventListener(
 ===================================================== */
 
 function grafikChiz() {
-    if (!weekChart) return;
+
+    if (!weekChart) {
+        return;
+    }
+
 
     weekChart.innerHTML = "";
 
-    const bugun = new Date();
-    bugun.setHours(0, 0, 0, 0);
+
+    const bugun =
+        new Date();
+
+    bugun.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
 
     const kunlar = [];
 
-    for (let i = 6; i >= 0; i--) {
+
+    for (
+        let i = 6;
+        i >= 0;
+        i--
+    ) {
+
         const sanaObj =
             new Date(bugun);
+
 
         sanaObj.setDate(
             bugun.getDate() - i
         );
 
-        kunlar.push(sanaObj);
+
+        kunlar.push(
+            sanaObj
+        );
     }
+
 
     const qiymatlar =
         kunlar.map(kun => {
 
-            return vazifalar.filter(v => {
+            return vazifalar.filter(
+                v => {
 
-                if (!v.bajarilgan) return false;
+                    if (!v.bajarilgan) {
+                        return false;
+                    }
 
-                const manba =
-                    v.yaratilgan
-                        ? new Date(v.yaratilgan)
-                        : null;
 
-                if (!manba || Number.isNaN(manba.getTime())) {
-                    return false;
+                    const manba =
+                        v.yaratilgan
+                            ? new Date(
+                                v.yaratilgan
+                            )
+                            : null;
+
+
+                    if (
+                        !manba ||
+                        Number.isNaN(
+                            manba.getTime()
+                        )
+                    ) {
+                        return false;
+                    }
+
+
+                    return (
+                        manba.getFullYear() ===
+                            kun.getFullYear() &&
+
+                        manba.getMonth() ===
+                            kun.getMonth() &&
+
+                        manba.getDate() ===
+                            kun.getDate()
+                    );
                 }
-
-                return (
-                    manba.getFullYear() ===
-                        kun.getFullYear() &&
-                    manba.getMonth() ===
-                        kun.getMonth() &&
-                    manba.getDate() ===
-                        kun.getDate()
-                );
-            }).length;
+            ).length;
         });
+
 
     const maksimal =
         Math.max(
             ...qiymatlar,
             1
         );
+
 
     const nomlar = [
         "Ya",
@@ -900,57 +1409,83 @@ function grafikChiz() {
         "Sha"
     ];
 
-    kunlar.forEach((kun, index) => {
 
-        const ustun =
-            document.createElement("div");
+    kunlar.forEach(
+        (kun, index) => {
 
-        ustun.className =
-            "chart-column";
-
-        const qiymat =
-            document.createElement("div");
-
-        qiymat.className =
-            "chart-value";
-
-        qiymat.textContent =
-            qiymatlar[index];
-
-        const bar =
-            document.createElement("div");
-
-        bar.className =
-            "chart-bar";
-
-        const foiz =
-            qiymatlar[index] === 0
-                ? 6
-                : Math.max(
-                    12,
-                    (qiymatlar[index] / maksimal) * 100
+            const ustun =
+                document.createElement(
+                    "div"
                 );
 
-        bar.style.height =
-            `${foiz}%`;
+            ustun.className =
+                "chart-column";
 
-        const label =
-            document.createElement("span");
 
-        label.className =
-            "chart-label";
+            const qiymat =
+                document.createElement(
+                    "div"
+                );
 
-        label.textContent =
-            nomlar[kun.getDay()];
+            qiymat.className =
+                "chart-value";
 
-        ustun.append(
-            qiymat,
-            bar,
-            label
-        );
+            qiymat.textContent =
+                qiymatlar[index];
 
-        weekChart.appendChild(ustun);
-    });
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+            bar.className =
+                "chart-bar";
+
+
+            const foiz =
+                qiymatlar[index] === 0
+                    ? 6
+                    : Math.max(
+                        12,
+                        (
+                            qiymatlar[index] /
+                            maksimal
+                        ) * 100
+                    );
+
+
+            bar.style.height =
+                `${foiz}%`;
+
+
+            const label =
+                document.createElement(
+                    "span"
+                );
+
+            label.className =
+                "chart-label";
+
+
+            label.textContent =
+                nomlar[
+                    kun.getDay()
+                ];
+
+
+            ustun.append(
+                qiymat,
+                bar,
+                label
+            );
+
+
+            weekChart.appendChild(
+                ustun
+            );
+        }
+    );
 }
 
 
@@ -964,19 +1499,28 @@ document.addEventListener(
 
         if (
             e.key === "/" &&
-            document.activeElement.tagName !== "INPUT" &&
-            document.activeElement.tagName !== "TEXTAREA"
+            document.activeElement.tagName !==
+                "INPUT" &&
+            document.activeElement.tagName !==
+                "TEXTAREA"
         ) {
+
             e.preventDefault();
+
             qidiruv.focus();
         }
 
+
         if (
             e.key === "Escape" &&
-            document.activeElement === qidiruv
+            document.activeElement ===
+                qidiruv
         ) {
+
             qidiruv.value = "";
+
             qidiruv.blur();
+
             chiz();
         }
     }
@@ -988,7 +1532,11 @@ document.addEventListener(
 ===================================================== */
 
 temaYukla();
+
 bugungiSana();
+
 chiz();
+
 statistika();
+
 grafikChiz();
